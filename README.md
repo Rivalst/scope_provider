@@ -58,6 +58,7 @@ Create a ScopeController for your Bloc:
 ```dart
 class MessageController extends ScopeController<MessageBloc> {
   @override
+  /// ensure that event and state are extended from BlocEvent and BlocState
   MessageBloc get createBloc => MessageBloc();
 
   bool isCanShowMessage(BuildContext context) {
