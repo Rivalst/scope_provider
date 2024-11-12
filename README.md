@@ -29,7 +29,41 @@ TODO: Include short and useful examples for package users. Add longer examples
 to `/example` folder.
 
 ```dart
-const like = 'sample';
+class MessageBuilder extends StatefulWidget {
+  const MessageBuilder({super.key});
+  
+
+  @override
+  State<MessageBuilder> createState() => _MessageBuilderState();
+}
+
+class _MessageBuilderState extends ScopeProvider<MessageBuilder, MessageState,
+    MessageBloc, MessageController> {
+  @override
+  MessageController createController() {
+    return MessageController();
+  }
+
+  @override
+  Widget onBuild(BuildContext context) {
+    return const SomeAnotherWidget();
+  }
+
+  @override
+  void onListen(
+      BuildContext context,
+      MessageState state,
+      MessageController controller,
+      ) {
+    final isCanShowMessage = controller.isCanShowMessage(context);
+    if (isCanShowMessage) {
+      DefaultSnackBar.show(
+        context: context,
+        message: controller.getMessage(context),
+      );
+    }
+  }
+}
 ```
 
 ## Additional information
