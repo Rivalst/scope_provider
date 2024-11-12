@@ -62,10 +62,14 @@ class MessageController extends ScopeController<MessageBloc> {
   MessageBloc get createBloc => MessageBloc();
 
   bool isCanShowMessage(BuildContext context) {
+    /// A getBloc returns the bloc instance of MessageBloc because it is extended 
+    /// from ScopeController that has a type of MessageBloc
+    final bloc = getBloc(context);
     // Your logic here
   }
 
   String getMessage(BuildContext context) {
+    final bloc = getBloc(context);
     // Your logic here
   }
 }
