@@ -25,9 +25,32 @@ start using the package.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+To use the scope_provider package, follow these steps:
 
+```yaml
+dependencies:
+  scope_provider:
+    path: ../scope_provider
+```
+
+Create a ScopeController for your Bloc:
+
+```dart
+class MessageController extends ScopeController<MessageBloc> {
+  @override
+  MessageBloc get createBloc => MessageBloc();
+
+  bool isCanShowMessage(BuildContext context) {
+    // Your logic here
+  }
+
+  String getMessage(BuildContext context) {
+    // Your logic here
+  }
+}
+```
+
+Extend ScopeProvider in your StatefulWidget instead of basic State:
 ```dart
 class MessageBuilder extends StatefulWidget {
   const MessageBuilder({super.key});
@@ -65,6 +88,12 @@ class _MessageBuilderState extends ScopeProvider<MessageBuilder, MessageState,
   }
 }
 ```
+Use the scope controller in your widget:
+
+````dart
+final messageController = ScopeProvider.of<MessageController>(context);
+final message = messageController.getMessage(context);
+````
 
 ## Additional information
 
