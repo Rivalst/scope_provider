@@ -1,27 +1,47 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+The scope_provider package provides a structured way to manage state and business logic in Flutter 
+applications using the Bloc pattern. It introduces new types of instances and enforces certain 
+rules to ensure consistency and reliability.  
 
-## Getting started
+New Types of Instances
+- ScopeController: An abstract class that serves as a controller for a Bloc. It provides a way to 
+create or retrieve a Bloc instance and offers methods to interact with the Bloc and perform actions 
+based on the state.  
+- ScopeProvider: An abstract class that acts as a base for any StatefulWidget that wants to provide 
+a ScopeController, Bloc, and listen to state changes. It ensures that the widget is tightly coupled 
+with the specific Bloc and controller it is managing.  
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## Rules
+**State and Event Classes**: Each state and event of a Bloc should extend BlocState and BlocEvent 
+respectively!!!. 
+This ensures that states can be compared by value rather than by reference, which is useful in the 
+Bloc pattern. 
+
+Generic Parameters: ScopeProvider requires four type parameters to function correctly:  
+- SF: The type of the StatefulWidget that the ScopeProvider is extending.
+- BS: The type of BlocState (the state managed by the Bloc).
+- BL: The type of Bloc that handles BlocEvent and emits BlocState.
+- SC: The type of ScopeController that creates or manages the Bloc.
+
+## Description for scope_provider.dart
+The scope_provider.dart file defines the core components of the scope_provider package:
+- BlocState: An abstract class that all states of a Bloc must extend. It uses the Equatable package 
+to ensure states can be compared by value rather than by reference.
+- BlocEvent: An abstract class that all events of a Bloc must extend. Events in the Bloc pattern 
+represent actions that trigger state changes.
+- ScopeController: An abstract class that serves as a controller for a Bloc. It provides a way to 
+create or retrieve a Bloc instance and offers methods to interact with the Bloc and perform actions 
+based on the state.
+- _ScopeBuilder: A StatelessWidget that is responsible for building the Bloc and using it with the 
+provided ScopeController. It's an internal helper widget.
+- ScopeProvider: An abstract class that acts as a base for any StatefulWidget that wants to provide 
+a ScopeController, Bloc, and listen to state changes. It ensures that the widget is tightly coupled 
+with the specific Bloc and controller it is managing.
+- _ScopeInherited: A custom InheritedWidget that holds the ScopeController and the current 
+BlocState. This widget allows its descendants to access the controller and the current state, and 
+it decides whether to notify listeners when the state changes.
+
 
 ## Usage
 
@@ -97,6 +117,14 @@ final message = messageController.getMessage(context);
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+ScopeProvider is a generic class that requires four type parameters to function correctly:  
+- MessageBuilder: This is the type of the StatefulWidget that the ScopeProvider is extending. 
+It ensures that the ScopeProvider is tightly coupled with the specific widget it is managing.  
+- MessageState: This represents the state managed by the Bloc. It is used to define the type of 
+state that the Bloc will emit and the ScopeProvider will listen to.  
+- MessageBloc: This is the Bloc that handles events and emits states. It encapsulates the business 
+logic and state management for the ScopeProvider.  
+- MessageController: This is the ScopeController that creates or manages the Bloc. It provides 
+methods to interact with the Bloc and perform actions based on the state.
+
+By specifying these types, ScopeProvider can correctly instantiate and manage the Bloc, listen to state changes, and provide the necessary context and controller to the widget tree.
