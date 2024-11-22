@@ -59,16 +59,16 @@ Create a ScopeController for your Bloc:
 class MessageController extends ScopeController<MessageBloc> {
   @override
   /// ensure that event and state are extended from BlocEvent and BlocState
-  MessageBloc get createBloc => MessageBloc();
+  MessageBloc createBloc(BuildContext context) => MessageBloc();
 
-  bool isCanShowMessage(BuildContext context) {
+  bool isCanShowMessage() {
     /// A getBloc returns the bloc instance of MessageBloc because it is extended 
     /// from ScopeController that has a type of MessageBloc
     final bloc = getBloc(context);
     // Your logic here
   }
 
-  String getMessage(BuildContext context) {
+  String getMessage() {
     final bloc = getBloc(context);
     // Your logic here
   }
@@ -132,4 +132,5 @@ logic and state management for the ScopeProvider.
 - MessageController: This is the ScopeController that creates or manages the Bloc. It provides 
 methods to interact with the Bloc and perform actions based on the state.
 
-By specifying these types, ScopeProvider can correctly instantiate and manage the Bloc, listen to state changes, and provide the necessary context and controller to the widget tree.
+By specifying these types, ScopeProvider can correctly instantiate and manage the Bloc, listen to 
+state changes, and provide the necessary context and controller to the widget tree.

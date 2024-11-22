@@ -6,11 +6,15 @@ import 'package:scope_provider/scope/extension.dart';
 /// BlocState is an abstract class that all states of a Bloc must extend.
 /// It uses the Equatable package to ensure states can be compared
 /// by value rather than by reference, which is useful in the Bloc pattern.
-abstract class BlocState extends Equatable {}
+abstract class BlocState extends Equatable {
+  const BlocState();
+}
 
 /// BlocEvent is an abstract class that all events of a Bloc must extend.
 /// Events in the Bloc pattern represent actions that trigger state changes.
-abstract class BlocEvent {}
+abstract class BlocEvent {
+  const BlocEvent();
+}
 
 /// ScopeController is an abstract class that serves as a controller
 /// for a Bloc (a pattern that separates business logic from UI).
@@ -18,9 +22,11 @@ abstract class BlocEvent {}
 ///
 /// All controllers should extend this class.
 abstract class ScopeController<BL extends Bloc<BlocEvent, BlocState>> {
+  late BuildContext context;
+
   /// Abstract getter that requires subclasses to provide a way
   /// to create a Bloc instance.
-  BL get createBloc;
+  BL createBloc(BuildContext context);
 
   /// Method to retrieve a Bloc instance from the widget context.
   /// The context.read<BL>() method is used to access the provided Bloc.
@@ -55,7 +61,7 @@ class _ScopeBuilder<BL extends Bloc<BlocEvent, BlocState>>
   @override
   Widget build(BuildContext context) {
     /// Calls the createBloc getter from the controller to get the Bloc instance.
-    final bloc = controller.createBloc;
+    final bloc = controller.createBloc(context);
 
     /// Passes the Bloc, controller, and context to the builder function.
     return builder(context, bloc, controller);
@@ -123,6 +129,8 @@ abstract class ScopeProvider<
             /// BlocBuilder rebuilds the UI when the Bloc's state changes.
             child: BlocBuilder<BL, BS>(
               builder: (context, state) {
+                controller.context = context;
+
                 /// Wraps the widget with a _ScopeInherited widget, which contains
                 /// the controller and the current state. This allows descendants
                 /// to access the controller and react to state changes.
