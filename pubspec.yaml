@@ -1,7 +1,9 @@
 name: scope_provider
-description: "A new Flutter project."
-version: 0.1.7
-#homepage:
+description: "A Flutter package that provides a structured state management solution using ScopeController and Bloc integration."
+version: 0.1.8
+
+repository: https://github.com/Rivalst/scope_provider
+homepage: https://github.com/Rivalst/scope_provider
 
 environment:
   sdk: ^3.5.1
@@ -10,13 +12,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  bloc: ^8.1.4
-  flutter_bloc: ^8.1.6
+  bloc: ^9.0.0
+  flutter_bloc: ^9.0.0
   equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 

@@ -185,3 +185,27 @@ final class _ScopeInherited<T extends ScopeController> extends InheritedWidget {
   bool updateShouldNotify(covariant _ScopeInherited oldWidget) =>
       state != oldWidget.state;
 }
+
+/// `ScopeControllerProvider` is a widget that retrieves a `ScopeController`
+/// from the nearest `ScopeProvider` in the widget tree and passes it to the `builder` function.
+/// It simplifies access to the controller, making the UI code cleaner and more readable.
+final class ScopeControllerProvider<T extends ScopeController>
+    extends StatelessWidget {
+  /// Constructor for `ScopeControllerProvider`.
+  ///
+  /// - `builder`: A function that receives the `BuildContext` and the retrieved
+  ///   `ScopeController`, allowing the widget to be built dynamically.
+  const ScopeControllerProvider({super.key, required this.builder});
+
+  /// A builder function that constructs the widget tree using the provided `ScopeController`.
+  final Widget Function(BuildContext context, T controller) builder;
+
+  @override
+  Widget build(BuildContext context) {
+    /// Retrieves the `ScopeController` of type `T` from the nearest `ScopeProvider`.
+    final controller = ScopeProvider.of<T>(context);
+
+    /// Calls the builder function, passing the retrieved controller.
+    return builder(context, controller);
+  }
+}

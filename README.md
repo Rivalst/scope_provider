@@ -41,11 +41,12 @@ with the specific Bloc and controller it is managing.
 - _ScopeInherited: A custom InheritedWidget that holds the ScopeController and the current 
 BlocState. This widget allows its descendants to access the controller and the current state, and 
 it decides whether to notify listeners when the state changes.
+- ScopeControllerProvider: A StatelessWidget that provides a ScopeController to its descendants.
 
 
 ## Usage
 
-To use the scope_provider package, follow these steps:
+To use the scope_provider as local package, follow these steps:
 
 ```yaml
 dependencies:
@@ -94,6 +95,7 @@ class _MessageBuilderState extends ScopeProvider<MessageBuilder, MessageState,
 
   @override
   Widget onBuild(BuildContext context) {
+    // Use a custom widget or added widget as a child, for example: widget.child
     return const SomeAnotherWidget();
   }
 
@@ -105,10 +107,7 @@ class _MessageBuilderState extends ScopeProvider<MessageBuilder, MessageState,
       ) {
     final isCanShowMessage = controller.isCanShowMessage(context);
     if (isCanShowMessage) {
-      DefaultSnackBar.show(
-        context: context,
-        message: controller.getMessage(context),
-      );
+      // show SnackBar
     }
   }
 }
@@ -119,6 +118,24 @@ Use the scope controller in your widget:
 final messageController = ScopeProvider.of<MessageController>(context);
 final message = messageController.getMessage(context);
 ````
+
+Or use the scope controller provider in your widget:
+
+```dart
+class Message extends StatelessWidget {
+  const Message({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopeControllerProvider<MessageController>(
+      builder: (context,  controller) {
+        final message = controller.getMessage();
+        return SomeAnotherWidget(message: message);
+      },
+    );
+  }
+}
+```
 
 ## Additional information
 
